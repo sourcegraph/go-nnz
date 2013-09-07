@@ -40,7 +40,7 @@ func TestNNZTypes(t *testing.T) {
 		jsonRepr string
 		sqlValue driver.Value
 	}{
-		{intPtr(123), new(Int), "123", int(123)},
+		{intPtr(123), new(Int), "123", int64(123)},
 		{intPtr(0), new(Int), "null", nil},
 		{stringPtr("abc"), new(String), `"abc"`, "abc"},
 		{stringPtr(""), new(String), "null", nil},

@@ -17,8 +17,6 @@ func (i *Int) Scan(v interface{}) error {
 		return nil
 	}
 	switch v := v.(type) {
-	case int:
-		*i = Int(v)
 	case int64:
 		*i = Int(v)
 	default:
@@ -32,7 +30,7 @@ func (i Int) Value() (driver.Value, error) {
 	if i == 0 {
 		return nil, nil
 	}
-	return int(i), nil
+	return int64(i), nil
 }
 
 // MarshalJSON implements the encoding/json.Marshaler interface.
