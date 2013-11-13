@@ -8,6 +8,8 @@ import (
 	"fmt"
 )
 
+// Int is a wrapper around int where Go int(0) serializes to SQL/JSON null, and
+// SQL/JSON null deserializes to Go int(0).
 type Int int
 
 // Scan implements the database/sql/driver.Scanner interface.
@@ -58,6 +60,8 @@ func (i *Int) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+// Int64 is a wrapper around int64 where Go int64(0) serializes to SQL/JSON
+// null, and SQL/JSON null deserializes to Go int64(0).
 type Int64 int64
 
 // Scan implements the database/sql/driver.Scanner interface.
@@ -108,6 +112,8 @@ func (i *Int64) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+// String is a wrapper around string where Go "" serializes to SQL/JSON null,
+// and SQL/JSON null deserializes to Go "".
 type String string
 
 // Scan implements the database/sql/driver.Scanner interface.
