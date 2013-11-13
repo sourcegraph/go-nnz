@@ -25,6 +25,14 @@ func (i *Int) deref() interface{} {
 	return *i
 }
 
+func int64Ptr(i Int64) *Int64 {
+	return &i
+}
+
+func (i *Int64) deref() interface{} {
+	return *i
+}
+
 func stringPtr(s String) *String {
 	return &s
 }
@@ -42,6 +50,8 @@ func TestNNZTypes(t *testing.T) {
 	}{
 		{intPtr(123), new(Int), "123", int64(123)},
 		{intPtr(0), new(Int), "null", nil},
+		{int64Ptr(123), new(Int64), "123", int64(123)},
+		{int64Ptr(0), new(Int64), "null", nil},
 		{stringPtr("abc"), new(String), `"abc"`, "abc"},
 		{stringPtr(""), new(String), "null", nil},
 	}

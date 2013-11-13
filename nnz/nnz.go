@@ -58,6 +58,56 @@ func (i *Int) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+type Int64 int64
+
+// Scan implements the database/sql/driver.Scanner interface.
+func (i *Int64) Scan(v interface{}) error {
+	if v == nil {
+		*i = 0
+		return nil
+	}
+	switch v := v.(type) {
+	case int64:
+		*i = Int64(v)
+	default:
+		return fmt.Errorf("nnz: scanning %T, got %T", i, v)
+	}
+	return nil
+}
+
+// Value implements the database/sql/driver.Valuer interface.
+func (i Int64) Value() (driver.Value, error) {
+	if i == 0 {
+		return nil, nil
+	}
+	return int64(i), nil
+}
+
+// MarshalJSON implements the encoding/json.Marshaler interface.
+func (i Int64) MarshalJSON() ([]byte, error) {
+	if i == 0 {
+		return json.Marshal(nil)
+	}
+	return json.Marshal(int64(i))
+}
+
+// UnmarshalJSON implements the encoding/json.Unmarshaler interface.
+func (i *Int64) UnmarshalJSON(data []byte) error {
+	var v interface{}
+	err := json.Unmarshal(data, &v)
+	if err != nil {
+		return err
+	}
+	if v == nil {
+		*i = 0
+	} else if v, ok := v.(float64); ok {
+		*i = Int64(v)
+	} else {
+		return fmt.Errorf("nnz: unmarshaling %T, got %T", i, v)
+	}
+	return nil
+}
+
 type String string
 
 // Scan implements the database/sql/driver.Scanner interface.
